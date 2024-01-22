@@ -4,6 +4,7 @@ import com.bbva.apx.exception.db.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -33,7 +34,7 @@ public class PISDR402Impl extends PISDR402Abstract {
 			return response;
 		} catch (NoResultException ex) {
 			LOGGER.info("executeGetASingleRow - There wasn't no result in query {}. Reason -> {}", queryId, ex.getMessage());
-			return null;
+			return Collections.emptyMap();
 		}
 	}
 
