@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -21,7 +22,9 @@ import org.springframework.aop.framework.Advised;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -45,6 +48,10 @@ public class PISDR402Test {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PISDR402Test.class);
 
+	@Mock
+	private Map<String, Object> insertSingleRowArguments;
+
+
 
 	@Resource(name = "applicationConfigurationService")
 	private ApplicationConfigurationService applicationConfigurationService;
@@ -65,6 +72,28 @@ public class PISDR402Test {
 	}
 
 	@Test
+	public void executeInsertSingleRow_WithNoResultException() {
+		LOGGER.info("PISDR402Test - Executing executeInsertSingleRow_WithNoResultException...");
+
+		when(insertSingleRowArguments.get("firstKey")).thenReturn("anyValue");
+
+		when(jdbcUtils.update("anyQueryId", insertSingleRowArguments)).thenThrow(new NoResultException("adviceCode", "errorMessage"));
+
+		int validation = pisdR402.executeInsertSingleRow("anyQueryId", insertSingleRowArguments, "firstKey");
+
+		assertEquals(-1, validation);
+	}
+
+	@Test
+	public void executeInsertSingleRow_WithMissingMandatoryParameters() {
+		LOGGER.info("PISDR402Test - Executing executeInsertSingleRow_WithMissingMandatoryParameters...");
+
+		int validation = pisdR402.executeInsertSingleRow("anyQueryId", insertSingleRowArguments, "firstKey");
+
+		assertEquals(0, validation);
+	}
+
+	@Test
 	public void executeGetASingleRow_OK() {
 		LOGGER.info("PISDR402Test - Executing executeGetASingleRow_OK...");
 
@@ -77,5 +106,45 @@ public class PISDR402Test {
 
 		assertNotNull(validation);
 	}
+
+	@Test
+	public void executeGetASingleRow_WithNoResultException() {
+		LOGGER.info("PISDR402Test - Executing executeGetASingleRow_WithNoResultException...");
+
+		when(jdbcUtils.queryForMap("anyQueryId", new HashMap<>())).thenThrow(new NoResultException("adviceCode", "errorMessage"));
+
+		Map<String, Object> validation = pisdR402.executeGetASingleRow("anyQueryId", new HashMap<>());
+
+		assertNull(validation);
+	}
+
+	@Test
+	public void executeGetListASingleRow_OK() {
+		LOGGER.info("PISDR402Test - Executing executeGetListASingleRow_OK...");
+
+		List<Map<String, Object>> listResponse = new ArrayList<>();
+		Map<String, Object> response = new HashMap<>();
+		response.put("key", "someValue");
+		listResponse.add(response);
+
+		when(jdbcUtils.queryForList("anyQueryId", new HashMap<>())).thenReturn(listResponse);
+
+		List < Map<String, Object> >validation = pisdR402.executeGetListASingleRow("anyQueryId", new HashMap<>());
+
+		assertNotNull(validation);
+	}
+
+	@Test
+	public void executeGetListASingleRow_WithNoResultException() {
+		LOGGER.info("PISDR402Test - Executing executeGetListASingleRow_WithNoResultException...");
+
+		when(jdbcUtils.queryForList("anyQueryId", new HashMap<>())).thenThrow(new NoResultException("adviceCode", "errorMessage"));
+
+		List <Map<String, Object>> validation = pisdR402.executeGetListASingleRow("anyQueryId", new HashMap<>());
+
+		assertNull(validation);
+	}
+
+
 	
 }

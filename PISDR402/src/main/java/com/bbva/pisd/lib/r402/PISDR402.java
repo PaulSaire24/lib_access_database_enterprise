@@ -1,5 +1,6 @@
 package com.bbva.pisd.lib.r402;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,6 +14,12 @@ public interface PISDR402 {
 	void execute();
 
 	Map<String, Object> executeGetASingleRow(String queryId, Map<String, Object> arguments);
+
+	List<Map<String, Object>> executeGetListASingleRow(String queryId, Map<String, Object> arguments);
+
+	int executeInsertSingleRow(String queryId, Map<String, Object> arguments, String... requiredParameters);
+
+
 
 
 }
