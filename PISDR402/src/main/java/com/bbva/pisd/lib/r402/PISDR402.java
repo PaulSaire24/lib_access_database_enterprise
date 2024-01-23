@@ -8,11 +8,6 @@ import java.util.Map;
  */
 public interface PISDR402 {
 
-	/**
-	 * The execute method...
-	 */
-	void execute();
-
 	Map<String, Object> executeGetASingleRow(String queryId, Map<String, Object> arguments);
 
 	List<Map<String, Object>> executeGetListASingleRow(String queryId, Map<String, Object> arguments);

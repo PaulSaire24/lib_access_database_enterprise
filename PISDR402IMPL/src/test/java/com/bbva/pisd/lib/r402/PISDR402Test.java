@@ -64,12 +64,7 @@ public class PISDR402Test {
 		jdbcUtils = mock(JdbcUtils.class);
 		pisdR402.setJdbcUtils(jdbcUtils);
 	}
-	
-	@Test
-	public void executeTest(){
-		pisdR402.execute();
-		Assert.assertEquals(0, context.getAdviceList().size());
-	}
+
 
 	@Test
 	public void executeInsertSingleRow_WithNoResultException() {

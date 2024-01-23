@@ -4,7 +4,10 @@ import com.bbva.apx.exception.db.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+
+import java.util.Map;
+import java.util.List;
+import java.util.Arrays;
 
 import static java.util.Objects.nonNull;
 
@@ -18,10 +21,6 @@ public class PISDR402Impl extends PISDR402Abstract {
 	/**
 	 * The execute method...
 	 */
-	@Override
-	public void execute() {
-		//method is empty because of tests
-	}
 
 	@Override
 	public int executeInsertSingleRow(String queryId, Map<String, Object> arguments, String... requiredParameters) {
@@ -65,8 +64,7 @@ public class PISDR402Impl extends PISDR402Abstract {
 		LOGGER.info("***** PISDR402Impl - executeGetListASingleRow | Executing {} QUERY", queryId);
 		try {
 			List<Map<String, Object>> response = this.jdbcUtils.queryForList(queryId, arguments);
-			response.stream().forEach(map -> map.
-					forEach((key, value) -> LOGGER.info("[executeGetListASingleRow] Result -> Key {} with value: {}", key,value)));
+			LOGGER.info("***** PISDR402Impl - executeGetListASingleRow | Number of inserted rows: {} *****", response.size());
 			LOGGER.info("***** PISDR402Impl - executeGetListASingleRow END *****");
 			return response;
 		} catch (NoResultException ex) {
