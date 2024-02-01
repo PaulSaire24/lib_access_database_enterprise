@@ -127,7 +127,7 @@ public class PISDR402Test {
 		List < Map<String, Object> >validation = pisdR402.executeGetListASingleRow("anyQueryId", new HashMap<>());
 
 		assertNotNull(validation);
-	};
+	}
 
 	@Test
 	public void executeGetListASingleRow_WithNoResultException() {
