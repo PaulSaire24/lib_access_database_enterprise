@@ -64,7 +64,7 @@ public class PISDR402Impl extends PISDR402Abstract {
 		LOGGER.info("***** PISDR402Impl - executeGetListASingleRow | Executing {} QUERY", queryId);
 		try {
 			List<Map<String, Object>> response = this.jdbcUtils.queryForList(queryId, arguments);
-			LOGGER.info("***** PISDR402Impl - executeGetListASingleRow | Number of inserted rows: {} *****", response.size());
+			LOGGER.info("***** PISDR402Impl - executeGetListASingleRow | Number of listed rows: {} *****", response.size());
 			LOGGER.info("***** PISDR402Impl - executeGetListASingleRow END *****");
 			return response;
 		} catch (NoResultException ex) {
